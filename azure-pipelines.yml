@@ -39,7 +39,7 @@ stages:
             displayName: Build and push an image to container registry
             inputs:
               command: buildAndPush
-              buildContext: '$(Agent.WorkFolder)/1'
+              buildContext: '$(Agent.WorkFolder)/1/s'
               repository: $(imageRepository)
               dockerfile: $(dockerfilePath)
               containerRegistry: $(dockerRegistryServiceConnection)
