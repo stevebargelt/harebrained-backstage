@@ -10,10 +10,10 @@ resources:
 
 variables:
   # Container registry service connection established during pipeline creation
-  dockerRegistryServiceConnection: '7266a741-44be-4d74-a2e2-ecf77b3646f0'
+  dockerRegistryServiceConnection: 'aeb4ee0f-5747-4317-9cd3-0cd5150dfee4'
   imageRepository: 'harebrainedbackstage'
-  containerRegistry: 'meatgeek.azurecr.io'
-  dockerfilePath: 'packages/backend/Dockerfile'
+  containerRegistry: 'harebrainedapps.azurecr.io'
+  dockerfilePath: '$(Build.SourcesDirectory)/packages/backend/Dockerfile'
   tag: '$(Build.BuildId)'
 
   # Agent VM image name
@@ -21,7 +21,7 @@ variables:
 
 stages:
   - stage: Build
-    displayName: Build and push stage
+    displayName: Docker Container Build and Push stage
     jobs:
       - job: Build
         displayName: Build
@@ -29,19 +29,22 @@ stages:
           vmImage: $(vmImageName)
         steps:
           - task: Bash@3
+            displayName: Build sources (yarn)
             inputs:
               targetType: 'inline'
               script: |
                 yarn install --frozen-lockfile
                 yarn tsc
                 yarn build
+
           - task: Docker@2
             displayName: Build and push an image to container registry
             inputs:
               command: buildAndPush
-              buildContext: '$(Agent.WorkFolder)/1/s'
+              buildContext: '$(Build.SourcesDirectory)'
               repository: $(imageRepository)
               dockerfile: $(dockerfilePath)
               containerRegistry: $(dockerRegistryServiceConnection)
               tags: |
                 $(tag)
+                latest
