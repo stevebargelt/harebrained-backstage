@@ -34,3 +34,5 @@ site
 
 # Sensitive credentials
 *-credentials.yaml
+
+backstage-env.txt
