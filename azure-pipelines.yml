@@ -37,6 +37,19 @@ stages:
                 yarn tsc
                 yarn build
 
+          - task: Bash@3
+            inputs:
+              targetType: 'inline'
+              script: |
+                echo "Structure of work folder of this pipeline:"
+                tree $(Agent.WorkFolder)\1 /f
+                echo "Build.ArtifactStagingDirectory:" 
+                echo "$(Build.ArtifactStagingDirectory)"
+                echo "Build.BinariesDirectory:" 
+                echo "$(Build.BinariesDirectory)"
+                echo "Build.SourcesDirectory:"
+                echo "$(Build.SourcesDirectory)"
+
           - task: Docker@2
             inputs:
               containerRegistry: 'meatgeek'
