@@ -15,6 +15,7 @@ variables:
   containerRegistry: 'meatgeek.azurecr.io'
   dockerfilePath: '$(Build.SourcesDirectory)/packages/backend/Dockerfile'
   tag: '$(Build.BuildId)'
+  working-dir:
 
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
@@ -41,4 +42,4 @@ stages:
               containerRegistry: 'meatgeek'
               repository: 'test2'
               command: 'buildAndPush'
-              Dockerfile: '**/Dockerfile'
+              Dockerfile: '$(Build.SourcesDirectory)/packages/backend/Dockerfile'
