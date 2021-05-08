@@ -36,3 +36,4 @@ site
 *-credentials.yaml
 
 backstage-env.txt
+secure-aci.yaml
