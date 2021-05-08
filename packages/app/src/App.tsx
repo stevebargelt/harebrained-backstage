@@ -5,6 +5,8 @@ import {
   createApp,
   FlatRoutes,
   OAuthRequestDialog,
+  githubAuthApiRef,
+  SignInPage,
 } from '@backstage/core';
 import { apiDocsPlugin, ApiExplorerPage } from '@backstage/plugin-api-docs';
 import {
@@ -12,7 +14,10 @@ import {
   CatalogIndexPage,
   catalogPlugin,
 } from '@backstage/plugin-catalog';
-import {CatalogImportPage, catalogImportPlugin} from '@backstage/plugin-catalog-import';
+import {
+  CatalogImportPage,
+  catalogImportPlugin,
+} from '@backstage/plugin-catalog-import';
 import { ScaffolderPage, scaffolderPlugin } from '@backstage/plugin-scaffolder';
 import { SearchPage } from '@backstage/plugin-search';
 import { TechRadarPage } from '@backstage/plugin-tech-radar';
@@ -24,6 +29,20 @@ import { Root } from './components/Root';
 
 const app = createApp({
   apis,
+  components: {
+    SignInPage: props => (
+      <SignInPage
+        {...props}
+        auto
+        provider={{
+          id: 'github-auth-provider',
+          title: 'GitHub',
+          message: 'Simple Backstage Application Login',
+          apiRef: githubAuthApiRef,
+        }}
+      />
+    ),
+  },
   bindRoutes({ bind }) {
     bind(catalogPlugin.externalRoutes, {
       createComponent: scaffolderPlugin.routes.root,
