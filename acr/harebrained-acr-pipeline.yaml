@@ -42,7 +42,6 @@ stages:
               Inline: |
                 $ctx = get-azcontext
                 $subId = $ctx.subscription.id
-                $aadApp = Get-AzADApplication -ApplicationId $ctx.account.id
               azurePowerShellVersion: LatestVersion
           - task: AzureResourceManagerTemplateDeployment@3
             displayName: 'Template Validation - Azure Container Registry'
