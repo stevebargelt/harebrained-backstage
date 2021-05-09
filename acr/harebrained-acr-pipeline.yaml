@@ -42,9 +42,13 @@ stages:
               Inline: |
                 $ctx = get-azcontext
                 $subId = $ctx.subscription.id
+                Write-Host "##[debug]ONE"
                 $aadApp = Get-AzADApplication -ApplicationId $ctx.account.id
+                Write-Host "##[debug]TWO"
                 $spId = (Get-AzADServicePrincipal -ApplicationId $aadApp.applicationId).Id
+                Write-Host "##[debug]THREE"
                 Write-Output ("##vso[task.setvariable variable=workloadSubId]$subId")
+                Write-Host "##[debug]FOUR"
                 Write-Output ("##vso[task.setvariable variable=spId]$spId")
               azurePowerShellVersion: LatestVersion
           - task: AzureResourceManagerTemplateDeployment@3
