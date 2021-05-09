@@ -26,12 +26,6 @@
       "defaultValue": "Basic",
       "allowedValues": ["Basic", "Standard", "Premium"]
     },
-    "acrReplicaLocation": {
-      "type": "string",
-      "metadata": {
-        "description": "Short name for registry replica location."
-      }
-    },
     "acrLocation": {
       "type": "string",
       "metadata": {
@@ -66,16 +60,6 @@
       "properties": {
         "adminUserEnabled": "[parameters('acrAdminUserEnabled')]"
       }
-    },
-    {
-      "name": "[concat(parameters('acrName'), '/', parameters('acrReplicaLocation'))]",
-      "type": "Microsoft.ContainerRegistry/registries/replications",
-      "apiVersion": "2019-05-01",
-      "location": "[parameters('acrReplicaLocation')]",
-      "properties": {},
-      "dependsOn": [
-        "[concat('Microsoft.ContainerRegistry/registries/', parameters('acrName'))]"
-      ]
     },
     {
       "type": "Microsoft.KeyVault/vaults",
