@@ -46,6 +46,24 @@ stages:
               tags: |
                 $(tag)
                 latest
+      - job: Publish_Pattern
+        displayName: Publish Pattern
+        pool:
+          vmImage: windows-latest
+        dependsOn: build_backstage_backend
+        steps:
+          - task: CopyFiles@2
+            displayName: 'Copy Files to: $(Build.ArtifactStagingDirectory)'
+            inputs:
+              SourceFolder: '$(Build.SourcesDirectory)/aci'
+              TargetFolder: '$(Build.ArtifactStagingDirectory)/aci'
+              CleanTargetFolder: true
+              OverWrite: true
+          - task: PublishBuildArtifacts@1
+            displayName: 'Publish Artifact: aci'
+            inputs:
+              artifactName: 'shadowsocks'
+              PathtoPublish: '$(Build.ArtifactStagingDirectory)/aci'
   - stage: deploy_to_prod
     displayName: 'Deploy Backend To Production'
     jobs:
