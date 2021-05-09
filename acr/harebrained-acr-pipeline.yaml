@@ -123,15 +123,14 @@ stages:
                     arguments: -ArmOutputString '$(ArmOutputs)'
                     pwsh: true
                   displayName: 'Parsing outputs from ARM deployment to pipeline variables'
-
                 - task: AzurePowerShell@5
-                displayName: 'Add ACR Credential to Key Vault'
-                inputs:
-                  azureSubscription: 'Visual Studio Enterprise'
-                  ScriptType: filePath
-                  ScriptPath: $(Agent.BuildDirectory)/acr/scripts/AddACRCredToKV.ps1
-                  ScriptArguments: -acrResourceGroup '$(resourceGroup)' -acrName '$(acrName)' -kvName '$(keyvaultName)' -acrUserNameSecretName '$(acrUserNameKVSecret)' -acrPwSecretName '$(acrPasswordKvSecret)'
-                  azurePowerShellVersion: LatestVersion
+                  inputs:
+                    azureSubscription: 'Visual Studio Enterprise'
+                    ScriptType: filePath
+                    ScriptPath: $(Agent.BuildDirectory)/acr/scripts/AddACRCredToKV.ps1
+                    ScriptArguments: -acrResourceGroup '$(resourceGroup)' -acrName '$(acrName)' -kvName '$(keyvaultName)' -acrUserNameSecretName '$(acrUserNameKVSecret)' -acrPwSecretName '$(acrPasswordKvSecret)'
+                    azurePowerShellVersion: LatestVersion
+                  displayName: 'Add ACR Credential to Key Vault'
   - stage: prod_deploy
     displayName: 'Deploy Prod Stage'
     condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
