@@ -1,12 +1,12 @@
 app:
   title: Harebrained Apps Backstage
-  baseUrl: http://localhost:7000
+  baseUrl: https://harebrained-backstage.azurewebsites.net/
 
 organization:
   name: Harebrained Apps
 
 backend:
-  baseUrl: http://localhost:7000
+  baseUrl: https://harebrained-backstage.azurewebsites.net:7000
   listen:
     port: 7000
   csp:
