@@ -188,4 +188,3 @@ stages:
                     ScriptPath: $(Agent.BuildDirectory)/acr/scripts/AddACRCredToKV.ps1
                     ScriptArguments: -acrResourceGroup '$(resourceGroup)' -acrName '$(acrName)' -kvName '$(keyvaultName)' -acrUserNameSecretName '$(acrUserNameKVSecret)' -acrPwSecretName '$(acrPasswordKvSecret)'
                     azurePowerShellVersion: LatestVersion
-
