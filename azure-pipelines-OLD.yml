@@ -1,0 +1,51 @@
+trigger:
+  branches:
+    include:
+      - main
+  paths:
+    exclude:
+      - acr
+
+resources:
+  - repo: self
+
+variables:
+  # Container registry service connection established during pipeline creation
+  dockerRegistryServiceConnection: 'aeb4ee0f-5747-4317-9cd3-0cd5150dfee4'
+  imageRepository: 'harebrainedbackstage'
+  containerRegistry: 'harebrainedapps.azurecr.io'
+  dockerfilePath: '$(Build.SourcesDirectory)/packages/backend/Dockerfile'
+  tag: '$(Build.BuildId)'
+
+  # Agent VM image name
+  vmImageName: 'ubuntu-latest'
+
+stages:
+  - stage: Build
+    displayName: Docker Container Build and Push stage
+    jobs:
+      - job: Build
+        displayName: Build
+        pool:
+          vmImage: $(vmImageName)
+        steps:
+          - task: Bash@3
+            displayName: Build sources (yarn)
+            inputs:
+              targetType: 'inline'
+              script: |
+                yarn install --frozen-lockfile
+                yarn tsc
+                yarn build
+
+          - task: Docker@2
+            displayName: Build and push an image to container registry
+            inputs:
+              command: buildAndPush
+              buildContext: '$(Build.SourcesDirectory)'
+              repository: $(imageRepository)
+              dockerfile: $(dockerfilePath)
+              containerRegistry: $(dockerRegistryServiceConnection)
+              tags: |
+                $(tag)
+                latest

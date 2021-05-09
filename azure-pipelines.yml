@@ -1,3 +1,4 @@
+name: $(BuildDefinitionName)_$(SourceBranchName)_$(Date:yyyyMMdd)$(Rev:.r)
 trigger:
   branches:
     include:
@@ -5,26 +6,27 @@ trigger:
   paths:
     exclude:
       - acr
-
-resources:
-  - repo: self
-
 variables:
-  # Container registry service connection established during pipeline creation
-  dockerRegistryServiceConnection: 'aeb4ee0f-5747-4317-9cd3-0cd5150dfee4'
-  imageRepository: 'harebrainedbackstage'
-  containerRegistry: 'harebrainedapps.azurecr.io'
-  dockerfilePath: '$(Build.SourcesDirectory)/packages/backend/Dockerfile'
-  tag: '$(Build.BuildId)'
-
-  # Agent VM image name
-  vmImageName: 'ubuntu-latest'
+  - group: variables-acr-dev
+  - group: secrets-acr-dev
+  - name: DOCKER_BUILDKIT
+    value: 1
+  - name: tag
+    value: '$(Build.BuildId)'
+  - name: dockerRegistryServiceConnection
+    value: 'aeb4ee0f-5747-4317-9cd3-0cd5150dfee4'
+  - name: imageRepository
+    value: 'harebrainedbackstage'
+  - name: containerRegistry
+    value: '$(acrName).azurecr.io'
+  - name: dockerfilePath
+    value: '$(Build.SourcesDirectory)/packages/backend/Dockerfile'
 
 stages:
-  - stage: Build
-    displayName: Docker Container Build and Push stage
+  - stage: build_and_test
+    displayName: 'Build and Test'
     jobs:
-      - job: Build
+      - job: Build Backstage Backend
         displayName: Build
         pool:
           vmImage: $(vmImageName)
@@ -37,15 +39,19 @@ stages:
                 yarn install --frozen-lockfile
                 yarn tsc
                 yarn build
-
+      - job: Build_push_docker_image
+        displayName: Build and Push Docker image
+        pool:
+          vmImage: ubuntu-latest
+        steps:
           - task: Docker@2
             displayName: Build and push an image to container registry
             inputs:
               command: buildAndPush
               buildContext: '$(Build.SourcesDirectory)'
-              repository: $(imageRepository)
+              repository: '$(acrName).azurecr.io'
               dockerfile: $(dockerfilePath)
-              containerRegistry: $(dockerRegistryServiceConnection)
+              containerRegistry: $(acrConnection)
               tags: |
                 $(tag)
                 latest
