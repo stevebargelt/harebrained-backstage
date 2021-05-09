@@ -7,10 +7,10 @@ trigger:
       - main
   paths:
     exclude:
-      - 'README.md'
-      - 'tests/*'
+      - README.md
+      - tests
     include:
-      - 'acr/*'
+      - acr
 pr:
   branches:
     include:
@@ -18,10 +18,10 @@ pr:
       - feature/*
   paths:
     exclude:
-      - 'README.md'
-      - 'tests/*'
+      - README.md
+      - tests
     include:
-      - 'acr/*'
+      - acr
 variables:
   acrUserNameKVSecret: 'acrUserName'
   acrPasswordKvSecret: 'acrPassword'
