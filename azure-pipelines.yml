@@ -46,3 +46,39 @@ stages:
               tags: |
                 $(tag)
                 latest
+  - stage: deploy_to_prod
+    displayName: 'Deploy Backend To Production'
+    jobs:
+      - deployment: deploy_to_prod
+        displayName: 'Deploy to Prod'
+        pool:
+          vmImage: ubuntu-latest
+          timeoutInMinutes: 120
+        variables:
+          - group: variables-acr-prod
+        environment: 'prod'
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - task: AzurePowerShell@5
+                  displayName: 'Get workload subscription Id'
+                  inputs:
+                    azureSubscription: 'Visual Studio Enterprise'
+                    ScriptType: InlineScript
+                    Inline: |
+                      $subId = (get-azcontext).subscription.id
+                      Write-Output ("##vso[task.setvariable variable=workloadSubId]$subId")
+                    azurePowerShellVersion: LatestVersion
+                - task: AzureResourceManagerTemplateDeployment@3
+                  displayName: 'Template Deployment - Prod'
+                  inputs:
+                    deploymentScope: Resource Group
+                    azureResourceManagerConnection: 'Visual Studio Enterprise'
+                    subscriptionId: '$(workloadSubId)'
+                    resourceGroupName: '$(resourceGroup)'
+                    location: '$(location)'
+                    csmFile: $(Agent.BuildDirectory)/aci/azuredeploy.json
+                    csmParametersFile: $(Agent.BuildDirectory)/aci/azuredeploy.parameters.json
+                    overrideParameters: '-name $(aciName) -image "$(acrName).azurecr.io/$(imageName):$(tag)" -location $(location) -imageUserName $(acrUserName) -imagePassword $(acrPassword) -imageRegistryLoginServer "$(acr).azurecr.io"'
+                    deploymentMode: Incremental
