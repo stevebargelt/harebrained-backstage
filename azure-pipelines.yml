@@ -62,7 +62,7 @@ stages:
           - task: PublishBuildArtifacts@1
             displayName: 'Publish Artifact: aci'
             inputs:
-              artifactName: 'shadowsocks'
+              artifactName: 'aci'
               PathtoPublish: '$(Build.ArtifactStagingDirectory)/aci'
   - stage: deploy_to_prod
     displayName: 'Deploy Backend To Production'
