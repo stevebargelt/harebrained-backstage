@@ -7,16 +7,12 @@ trigger:
     exclude:
       - acr
 variables:
-  - group: variables-acr-dev
-  - group: secrets-acr-dev
+  - group: variables-acr-prod
+  - group: secrets-acr-prod
   - name: DOCKER_BUILDKIT
     value: 1
   - name: tag
     value: '$(Build.BuildId)'
-  - name: dockerRegistryServiceConnection
-    value: 'aeb4ee0f-5747-4317-9cd3-0cd5150dfee4'
-  - name: imageRepository
-    value: 'harebrainedbackstage'
   - name: containerRegistry
     value: '$(acrName).azurecr.io'
   - name: dockerfilePath
