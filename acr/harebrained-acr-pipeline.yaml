@@ -46,6 +46,7 @@ stages:
                 $aadApp = Get-AzADApplication -ApplicationId $ctx.account.id
                 Write-Host "TWO"
                 $spId = (Get-AzADServicePrincipal -ApplicationId $aadApp.applicationId).Id
+                Write-Host "THREE"
                 Write-Output ("##vso[task.setvariable variable=workloadSubId]$subId")
                 Write-Output ("##vso[task.setvariable variable=spId]$spId")
               azurePowerShellVersion: LatestVersion
