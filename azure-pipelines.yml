@@ -29,7 +29,7 @@ stages:
       - job: build_backstage_backend
         displayName: Build
         pool:
-          vmImage: $(vmImageName)
+          vmImage: ubuntu-latest
         steps:
           - task: Bash@3
             displayName: Build sources (yarn)
