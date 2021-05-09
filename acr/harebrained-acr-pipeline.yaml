@@ -44,8 +44,6 @@ stages:
                 $subId = $ctx.subscription.id
                 $aadApp = Get-AzADApplication -ApplicationId $ctx.account.id
                 $spId = (Get-AzADServicePrincipal -ApplicationId $aadApp.applicationId).Id
-                Write-Output ("##vso[task.setvariable variable=workloadSubId]$subId")
-                Write-Output ("##vso[task.setvariable variable=spId]$spId")
               azurePowerShellVersion: LatestVersion
           - task: AzureResourceManagerTemplateDeployment@3
             displayName: 'Template Validation - Azure Container Registry'
