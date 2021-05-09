@@ -27,7 +27,7 @@ stages:
     displayName: 'Build and Test'
     jobs:
       - job: build_backstage_backend
-        displayName: Build
+        displayName: 'Build Backend'
         pool:
           vmImage: ubuntu-latest
         steps:
@@ -44,7 +44,7 @@ stages:
             inputs:
               command: buildAndPush
               buildContext: '$(Build.SourcesDirectory)'
-              repository: '$(acrName).azurecr.io'
+              repository: '$(repositoryBackend)'
               dockerfile: $(dockerfilePath)
               containerRegistry: $(acrConnection)
               tags: |
