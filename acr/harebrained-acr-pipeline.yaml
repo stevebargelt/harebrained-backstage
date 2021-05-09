@@ -44,6 +44,7 @@ stages:
                 $subId = $ctx.subscription.id
                 Write-Host "ONE"
                 $aadApp = Get-AzADApplication -ApplicationId $ctx.account.id
+                Write-Host "TWO"
                 $spId = (Get-AzADServicePrincipal -ApplicationId $aadApp.applicationId).Id
                 Write-Output ("##vso[task.setvariable variable=workloadSubId]$subId")
                 Write-Output ("##vso[task.setvariable variable=spId]$spId")
