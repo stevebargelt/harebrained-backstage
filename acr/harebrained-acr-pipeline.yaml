@@ -115,7 +115,7 @@ stages:
                     subscriptionId: '$(workloadSubId)'
                     location: '$(acrLocation)'
                     csmFile: $(Agent.BuildDirectory)/acr/templates/azuredeploy.json
-                    overrideParameters: '-acrName $(acrName) -acrLocation $(acrLocation) -AzpAzpServicePrincipalId $(spId)'
+                    overrideParameters: '-acrName $(acrName) -acrLocation $(acrLocation) -kvName '$(keyvaultName)' -AzpAzpServicePrincipalId $(spId)'
                     deploymentOutputs: 'ArmOutputs'
                     deploymentMode: Incremental
                 - task: PowerShell@2
