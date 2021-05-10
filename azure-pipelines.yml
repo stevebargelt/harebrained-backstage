@@ -61,7 +61,7 @@ stages:
         displayName: Publish Pattern
         pool:
           vmImage: windows-latest
-        dependsOn: build_backstage_backend
+        dependsOn: build_backstage
         steps:
           - task: CopyFiles@2
             displayName: 'Copy Files to: $(Build.ArtifactStagingDirectory)'
