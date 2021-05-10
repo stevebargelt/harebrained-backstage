@@ -13,8 +13,6 @@ variables:
     value: 1
   - name: tag
     value: '$(Build.BuildId)'
-  - name: containerRegistry
-    value: '$(acrName).azurecr.io'
   - name: dockerfilePath
     value: '$(Build.SourcesDirectory)/packages/backend/Dockerfile'
 
@@ -98,5 +96,5 @@ stages:
                     location: '$(location)'
                     csmFile: $(Agent.BuildDirectory)/aci/azuredeploy.json
                     csmParametersFile: $(Agent.BuildDirectory)/aci/azuredeploy.parameters.json
-                    overrideParameters: '-name $(aciName) -image "$(acrName).azurecr.io/$(imageName):$(tag)" -location $(location) -imageUserName $(acrUserName) -imagePassword $(acrPassword) -imageRegistryLoginServer "$(acr).azurecr.io"'
+                    overrideParameters: '-name $(aciName) -image "$(acrName).azurecr.io/$(imageName):$(tag)" -location $(location) -imageUserName $(acrUserName) -imagePassword $(acrPassword) -imageRegistryLoginServer "$(acrName).azurecr.io"'
                     deploymentMode: Incremental
