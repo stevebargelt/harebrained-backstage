@@ -1,6 +1,6 @@
 app:
   title: Harebrained Apps Backstage
-  baseUrl: harebrained-backstage-frontend.westus2.azurecontainer.io
+  baseUrl: harebrained-backstage-backend.westus2.azurecontainer.io
 
 organization:
   name: Harebrained Apps
