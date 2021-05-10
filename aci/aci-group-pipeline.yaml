@@ -1,0 +1,43 @@
+apiVersion: 2019-12-01
+location: westus2
+name: backstage
+type: Microsoft.ContainerInstance/containerGroups
+properties:
+  osType: Linux
+  ipAddress:
+    type: Public
+    dnsNameLabel: caddy-backstage-frontend
+    ports:
+      - protocol: tcp
+        port: 443
+  imageRegistryCredentials:
+    - server: backstageregistry.azurecr.io
+      username: %acrUsername%
+      password: %acrPassword%
+  restartPolicy: Always
+  containers:
+    - name: backstagefrontend
+      properties:
+        image: backstageRegistry.azurecr.io/backstage-frontend:latest
+        resources:
+          requests:
+            cpu: 1
+            memoryInGb: 1.5
+        ports:
+          - port: 80
+    - name: caddy
+      properties:
+        image: caddy:latest
+        command:
+          [
+            'caddy',
+            'reverse-proxy',
+            '--from caddy-backstage-frontend.westus2.azurecontainer.io',
+            '--to localhost:80',
+          ]
+        resources:
+          requests:
+            cpu: 1
+            memoryInGb: 1.5
+        ports:
+          - port: 443
