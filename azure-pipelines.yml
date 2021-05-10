@@ -22,8 +22,8 @@ stages:
   - stage: build_and_test
     displayName: 'Build and Test'
     jobs:
-      - job: build_backstage_backend
-        displayName: 'Build Backend'
+      - job: build_backstage
+        displayName: 'Build'
         pool:
           vmImage: ubuntu-latest
         steps:
@@ -57,3 +57,16 @@ stages:
               tags: |
                 $(tag)
                 latest
+      - job: Publish_Pattern
+        displayName: Publish Pattern
+        pool:
+          vmImage: windows-latest
+        dependsOn: build_backstage_backend
+        steps:
+          - task: CopyFiles@2
+            displayName: 'Copy Files to: $(Build.ArtifactStagingDirectory)'
+            inputs:
+              SourceFolder: '$(Build.SourcesDirectory)/aci'
+              TargetFolder: '$(Build.ArtifactStagingDirectory)/aci'
+              CleanTargetFolder: true
+              OverWrite: true
