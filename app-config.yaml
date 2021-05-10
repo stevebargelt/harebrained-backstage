@@ -1,18 +1,18 @@
 app:
   title: Harebrained Apps Backstage
-  baseUrl: https://harebrained-backstage.azurewebsites.net/
+  baseUrl: harebrained-backstage-frontend.westus2.azurecontainer.io
 
 organization:
   name: Harebrained Apps
 
 backend:
-  baseUrl: https://harebrained-backstage.azurewebsites.net:7000
+  baseUrl: harebrained-backstage-backend.westus2.azurecontainer.io:7000
   listen:
     port: 7000
   csp:
     connect-src: ["'self'", 'http:', 'https:']
   cors:
-    origin: https://harebrained-backstage.azurewebsites.net/
+    origin: https://harebrained-backstage-frontend.westus2.azurecontainer.io
     methods: [GET, POST, PUT, DELETE]
     credentials: true
   reading:

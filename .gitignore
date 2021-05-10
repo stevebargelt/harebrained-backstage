@@ -37,3 +37,4 @@ site
 
 backstage-env.txt
 secure-aci.yaml
+env-for-pipeline.sh

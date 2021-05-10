@@ -34,7 +34,6 @@
 #       docker build -t backstage-frontend -f Dockerfile.dockerbuild .
 
 
-
 FROM node:14-buster AS build
 
 RUN mkdir /app
@@ -42,8 +41,7 @@ COPY . /app
 WORKDIR /app
 
 RUN yarn install
-RUN yarn workspace app build
-
+RUN yarn workspace app build --config app-config.yaml
 
 
 FROM nginx:mainline

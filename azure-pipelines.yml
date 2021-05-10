@@ -13,8 +13,10 @@ variables:
     value: 1
   - name: tag
     value: '$(Build.BuildId)'
-  - name: dockerfilePath
+  - name: dockerfilePathBackend
     value: '$(Build.SourcesDirectory)/packages/backend/Dockerfile'
+  - name: dockerfilePathFrontend
+    value: '$(Build.SourcesDirectory)/Dockerfile.hostbuild'
 
 stages:
   - stage: build_and_test
@@ -26,7 +28,7 @@ stages:
           vmImage: ubuntu-latest
         steps:
           - task: Bash@3
-            displayName: Build sources (yarn)
+            displayName: Build backend source (yarn)
             inputs:
               targetType: 'inline'
               script: |
@@ -34,13 +36,24 @@ stages:
                 yarn tsc
                 yarn build
           - task: Docker@2
-            displayName: Build and push an image to container registry
+            displayName: Build and push Backend to container registry
             inputs:
               command: buildAndPush
               buildContext: '$(Build.SourcesDirectory)'
               repository: '$(repositoryBackend)'
-              dockerfile: $(dockerfilePath)
-              containerRegistry: $(acrConnection)
+              dockerfile: $(dockerfilePathBackend)
+              containerRegistry: $(acrName)
+              tags: |
+                $(tag)
+                latest
+          - task: Docker@2
+            displayName: Build and push Frontend to container registry
+            inputs:
+              command: buildAndPush
+              buildContext: '$(Build.SourcesDirectory)'
+              repository: '$(repositoryFrontend)'
+              dockerfile: $(dockerfilePathFrontend)
+              containerRegistry: $(acrName)
               tags: |
                 $(tag)
                 latest
