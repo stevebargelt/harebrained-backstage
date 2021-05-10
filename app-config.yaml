@@ -1,12 +1,12 @@
 app:
   title: Harebrained Apps Backstage
-  baseUrl: harebrained-backstage-backend.westus2.azurecontainer.io
+  baseUrl: https://harebrained-backstage-frontend.westus2.azurecontainer.io
 
 organization:
   name: Harebrained Apps
 
 backend:
-  baseUrl: harebrained-backstage-backend.westus2.azurecontainer.io:7000
+  baseUrl: https://harebrained-backstage-backend.westus2.azurecontainer.io:7000
   listen:
     port: 7000
   csp:
