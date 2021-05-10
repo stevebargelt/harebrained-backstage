@@ -93,6 +93,7 @@ stages:
                     azureResourceManagerConnection: 'Visual Studio Enterprise'
                     subscriptionId: '$(workloadSubId)'
                     resourceGroupName: '$(resourceGroup)'
+                    dnsNameLabel: 'harebrained-backstage-backend'
                     location: '$(location)'
                     csmFile: $(Agent.BuildDirectory)/aci/azuredeploy.json
                     csmParametersFile: $(Agent.BuildDirectory)/aci/azuredeploy.parameters.json
