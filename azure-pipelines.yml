@@ -63,10 +63,8 @@ stages:
           vmImage: windows-latest
         dependsOn: build_backstage
         steps:
-          - task: CopyFiles@2
-            displayName: 'Copy Files to: $(Build.ArtifactStagingDirectory)'
+          - task: PublishPipelineArtifact@1
+            displayName: 'Publish Artifacts'
             inputs:
-              SourceFolder: '$(Build.SourcesDirectory)/aci'
-              TargetFolder: '$(Build.ArtifactStagingDirectory)/aci'
-              CleanTargetFolder: true
-              OverWrite: true
+              targetPath: $(Build.SourcesDirectory)/aci
+              artifactType: pipeline
