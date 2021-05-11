@@ -6,9 +6,9 @@ organization:
   name: Harebrained Apps
 
 backend:
-  baseUrl: https://https://harebrained-backstage-backend.azurewebsites.net:7000
+  baseUrl: https://harebrained-backstage-backend.azurewebsites.net
   listen:
-    port: 7000
+    port: 80
   csp:
     connect-src: ["'self'", 'http:', 'https:']
   cors:
