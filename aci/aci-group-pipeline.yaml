@@ -16,6 +16,15 @@ properties:
       password: %acrPassword%
   restartPolicy: Always
   containers:
+    - name: backstagefrontend
+      properties:
+        image: backstageRegistry.azurecr.io/backstage-frontend:latest
+        resources:
+          requests:
+            cpu: 1
+            memoryInGb: 1.5
+        ports:
+          - port: 80
     - name: caddy
       properties:
         image: caddy:latest
@@ -30,5 +39,21 @@ properties:
           requests:
             cpu: 1
             memoryInGb: 1.5
+        volumeMounts:
+          - mountPath: /data
+            name: datavolume
+          - mountPath: /logs
+            name: logsvolume
         ports:
           - port: 443
+  volumes:
+    - name: datavolume
+      azureFile:
+        sharename: caddydata
+        storageAccountName: %storageAccountName%
+        storageAccountKey: %storageAccountKey%
+    - name: logsvolume
+      azureFile:
+        sharename: caddylogs
+        storageAccountName: %storageAccountName%
+        storageAccountKey: %storageAccountKey%
