@@ -8,7 +8,7 @@ organization:
 backend:
   baseUrl: https://harebrained-backstage-backend.azurewebsites.net
   listen:
-    port: 80
+    port: 443
   csp:
     connect-src: ["'self'", 'http:', 'https:']
   cors:
@@ -62,6 +62,9 @@ auth:
   providers:
     github:
       development:
+        clientId: ${AUTH_GITHUB_CLIENT_ID}
+        clientSecret: ${AUTH_GITHUB_CLIENT_SECRET}
+      production:
         clientId: ${AUTH_GITHUB_CLIENT_ID}
         clientSecret: ${AUTH_GITHUB_CLIENT_SECRET}
 
