@@ -40,3 +40,4 @@ secure-aci.yaml
 env-for-pipeline.sh
 aci/aci-group.yaml
 aci/scripts/replace-secrets.ps1
+docker-compose.yml
