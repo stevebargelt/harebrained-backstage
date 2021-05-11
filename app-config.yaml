@@ -1,6 +1,6 @@
 app:
   title: Harebrained Apps Backstage
-  baseUrl: https://harebrained-backstage-frontend.westus2.azurecontainer.io
+  baseUrl: http://localhost:8080
 
 organization:
   name: Harebrained Apps
@@ -12,7 +12,7 @@ backend:
   csp:
     connect-src: ["'self'", 'http:', 'https:']
   cors:
-    origin: https://harebrained-backstage-frontend.westus2.azurecontainer.io
+    origin: http://localhost:8080
     methods: [GET, POST, PUT, DELETE]
     credentials: true
   reading:

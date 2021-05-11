@@ -9,6 +9,8 @@ properties:
     dnsNameLabel: caddy-backstage-frontend
     ports:
       - protocol: tcp
+        port: 80
+      - protocol: tcp
         port: 443
   imageRegistryCredentials:
     - server: backstageregistry.azurecr.io
@@ -24,7 +26,7 @@ properties:
             cpu: 1
             memoryInGb: 1.5
         ports:
-          - port: 80
+          - port: 8080
     - name: caddy
       properties:
         image: caddy:latest
@@ -32,8 +34,8 @@ properties:
           [
             'caddy',
             'reverse-proxy',
-            '--from caddy-backstage-frontend.westus2.azurecontainer.io',
-            '--to localhost:80',
+            '--from backstage.harebrained-apps.com',
+            '--to localhost:8080',
           ]
         resources:
           requests:
@@ -48,6 +50,7 @@ properties:
             name: configvolume
         ports:
           - port: 443
+          - port: 80
   volumes:
     - name: datavolume
       azureFile:
