@@ -16,12 +16,19 @@ properties:
       password: %acrPassword%
   restartPolicy: Always
   containers:
-    - name: backstagefrontend
+    - name: caddy
       properties:
-        image: backstageRegistry.azurecr.io/backstage-frontend:latest
+        image: caddy:latest
+        command:
+          [
+            'caddy',
+            'reverse-proxy',
+            '--from caddy-backstage-frontend.westus2.azurecontainer.io',
+            '--to localhost:80',
+          ]
         resources:
           requests:
             cpu: 1
             memoryInGb: 1.5
         ports:
-          - port: 80
+          - port: 443
