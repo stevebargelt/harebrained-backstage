@@ -25,19 +25,3 @@ properties:
             memoryInGb: 1.5
         ports:
           - port: 80
-    - name: caddy
-      properties:
-        image: caddy:latest
-        command:
-          [
-            'caddy',
-            'reverse-proxy',
-            '--from caddy-backstage-frontend.westus2.azurecontainer.io',
-            '--to localhost:80',
-          ]
-        resources:
-          requests:
-            cpu: 1
-            memoryInGb: 1.5
-        ports:
-          - port: 443
