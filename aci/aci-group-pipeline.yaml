@@ -44,6 +44,8 @@ properties:
             name: datavolume
           - mountPath: /logs
             name: logsvolume
+          - mountpath: /config
+            name: configvolume
         ports:
           - port: 443
   volumes:
@@ -55,5 +57,10 @@ properties:
     - name: logsvolume
       azureFile:
         sharename: caddylogs
+        storageAccountName: %storageAccountName%
+        storageAccountKey: %storageAccountKey%
+    - name: configvolume
+      azureFile:
+        sharename: caddyconfig
         storageAccountName: %storageAccountName%
         storageAccountKey: %storageAccountKey%
